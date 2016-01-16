@@ -1,0 +1,20 @@
+<%!
+  title = 'Home'
+%>
+<%inherit file="base.html" />
+
+<%namespace name="helper" file="helper.html" />
+
+<h1>Home</h1>
+
+<%block filter="rst">
+**This** was rendered using `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_.
+</%block>
+
+<%block filter="markdown">
+**This** was rendered using [Markdown](https://en.wikipedia.org/wiki/Markdown).
+</%block>
+
+<h2>Examples</h2>
+
+${helper.pagelist(user, site)}

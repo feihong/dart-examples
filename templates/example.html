@@ -1,0 +1,12 @@
+<%!
+    title = 'Example'
+%>
+<%inherit file="base.html"/>
+
+<a href='${site}'>Back</a> &nbsp; <a href='https://github.com/${user}${site}tree/master/site/${slug}'>Source</a>
+
+<h1>${self.attr.title}</h1>
+
+${next.body()}
+
+<script src='app.js'></script>
