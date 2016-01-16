@@ -9,4 +9,8 @@
 
 ${next.body()}
 
+% if DEV:
+<script type='application/dart' src='app.dart'></script>
+% else:
 <script src='app.js'></script>
+% endif
