@@ -6,11 +6,14 @@ final json = new JsonDecoder();
 
 main() {
   doSomeStuff().then((result) {
-    print('Done! Result: ${result}');
+    print('Done!');
+    // The result is null because the body of doSomeStuff() implicitly returned
+    // null.
+    print('Result: ${result}');
   });
 }
 
-void doSomeStuff() async {
+Future doSomeStuff() async {
   var m1 = await getJson('m1.json');
   addPara(m1['message']);
 
@@ -24,9 +27,9 @@ void doSomeStuff() async {
   var m2 = await getJson('m2.json');
   addPara(m2['message']);
 
-  addPara('Slowly count from 6 to 9 using asynchronous generator...');
+  addPara('Slowly count from 6 to 8 using asynchronous generator...');
 
-  await for (var n in getNumbersSlowly(6, 9)) {
+  await for (var n in getNumbersSlowly(6, 8)) {
     addPara(n);
   }
 
@@ -39,24 +42,26 @@ void addPara(String mesg) {
   querySelector('#content').append(p);
 }
 
-getJson(url) async {
+Future<String> getJson(url) async {
   String s = await HttpRequest.getString(url);
+  // Although it looks like we are returning a String, what will actually be
+  // returned is a Future.
   return json.convert(s);
 }
 
-getNumbers(start, end) sync* {
+Iterable getNumbers(start, end) sync* {
   for (var i=start; i <= end; i++) {
     yield i;
   }
 }
 
-getNumbersSlowly(start, end) async* {
-  for (var i=start; i <= end; i++) {
-    yield i;
+Stream getNumbersSlowly(start, end) async* {
+  for (var n in getNumbers(start, end)) {
+    yield n;
     await sleep(1);
   }
 }
 
-sleep(int seconds) {
+Future sleep(int seconds) {
   return new Future.delayed(new Duration(seconds: 1));
 }
