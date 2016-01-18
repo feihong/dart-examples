@@ -11,18 +11,26 @@ main() {
 }
 
 void doSomeStuff() async {
-  addPara('Slowly count to 5 using synchronous generator...');
+  var m1 = await getJson('m1.json');
+  addPara(m1['message']);
 
-  for (var n in getNumbers(1, 6)) {
+  addPara('Slowly count to 3 using synchronous generator...');
+
+  for (var n in getNumbers(1, 3)) {
     addPara(n);
     await sleep(1);
   }
 
-  addPara('Slowly count from 6 to 10 using asynchronous generator...');
+  var m2 = await getJson('m2.json');
+  addPara(m2['message']);
 
-  await for (var n in getNumbersSlowly(6, 11)) {
+  addPara('Slowly count from 6 to 9 using asynchronous generator...');
+
+  await for (var n in getNumbersSlowly(6, 9)) {
     addPara(n);
   }
+
+  addPara('All done!');
 }
 
 void addPara(String mesg) {
@@ -31,20 +39,19 @@ void addPara(String mesg) {
   querySelector('#content').append(p);
 }
 
-// getJson(url) async* {
-//   String s = await HttpRequest.getString(url);
-//   print(s);
-//   yield json.convert(s);
-// }
+getJson(url) async {
+  String s = await HttpRequest.getString(url);
+  return json.convert(s);
+}
 
 getNumbers(start, end) sync* {
-  for (var i=start; i < end; i++) {
+  for (var i=start; i <= end; i++) {
     yield i;
   }
 }
 
 getNumbersSlowly(start, end) async* {
-  for (var i=start; i < end; i++) {
+  for (var i=start; i <= end; i++) {
     yield i;
     await sleep(1);
   }
