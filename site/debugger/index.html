@@ -3,6 +3,13 @@
 %>
 <%inherit file='example.html' />
 
+<%block filter='markdown'>
+Use the [dart:developer](https://api.dartlang.org/1.13.2/dart-developer/dart-developer-library.html) package to set a breakpoint.
+</%block>
+
+<p>
+  <input type='checkbox'> Debug on add
+</p>
 <p>
   <button class='add'>Add message</button>
   <button class='clear'>Clear</button>
