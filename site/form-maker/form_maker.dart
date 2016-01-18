@@ -61,11 +61,10 @@ class FormMaker {
 
   getValues() {
     var pairs = this.form.querySelectorAll('input, checkbox, textarea').map((e) {
-      var value = (e.attributes['type'] == 'checkbox') ?
-        e.checked : e.value;
+      var value = (e.attributes['type'] == 'checkbox') ? e.checked : e.value;
       return [e.name, value];
     });
-    return new Map.fromIterable(pairs, key: (x) => x[0], value: (x) => x[1]);
+    return dict(pairs);
   }
 
   render(id) {
@@ -73,4 +72,10 @@ class FormMaker {
     el.append(this.form);
     this.firstField.focus();
   }
+}
+
+// Accept a list of pairs and return the corresponding Map object. Similar to
+// the dict() function in Python.
+Map dict(List pairs) {
+  return new Map.fromIterable(pairs, key: (x) => x[0], value: (x) => x[1]);
 }
