@@ -25,10 +25,27 @@ main() {
     var text = 'Hello there';
     debugger(message: 'Time to debug');
   });
+
+  var assertButton = querySelector('button.assert');
+  assertButton.onClick.listen((evt) {
+    assert(false);
+    addParaHtml('''
+      The assert was ignored because we are not running in checked mode.
+      Run <code>DART_FLAGS='--checked' dartium</code> to turn on checked mode.
+    ''');
+  });
 }
 
 void addPara(String mesg) {
-  var p = new Element.p();
-  p.text = mesg;
-  querySelector('#content').append(p);
+  // Use the cascade (..) operator to avoid creating an Element variable just to
+  // set its text property.
+  querySelector('#content').append(
+    new Element.p()..text = mesg
+  );
+}
+
+void addParaHtml(String html) {
+  querySelector('#content').append(
+    new Element.p()..innerHtml = html
+  );
 }
