@@ -27,6 +27,8 @@ if SITE != '/':
 @app.route(SITE + '<path:path>')
 def page(path=''):
     file_ = get_file(path)
+    if file_.startswith('packages') and file_.endswith('.dart'):
+        return open(file_).read()
     if not file_.endswith('.html'):
         return bottle.static_file(path, root='site')
     return generate(file_, dev=True)
@@ -181,6 +183,9 @@ def get_file(path):
         return str(result)
     if result.is_dir() and (result / 'index.html').is_file():
         return str(result / 'index.html')
+    if '/packages/' in path:
+        relpath = path[path.index('/packages/') + 10:]
+        return str(Path('packages') / relpath)
     return 'site/404.html'
 
 
