@@ -12,9 +12,21 @@ function horrible(n) {
   addPara(result)
 }
 
-function addPara(text) {
+function addPara(html) {
   var div = document.querySelector('#content')
   var p = document.createElement('p')
-  p.innerHTML = text
+  p.innerHTML = html
   div.appendChild(p)
 }
+
+var Animal = function(name) {
+  this.name = name
+}
+
+Animal.prototype.getGreeting = function() { return 'hi' }
+
+var Dog = function(name) {
+  Animal.call(this, name)
+}
+
+Dog.prototype.getGreeting = function() { return 'bark' }
