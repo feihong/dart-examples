@@ -1,8 +1,8 @@
 *.pyc
 build/
-*.js
 *.deps
 *.map
+app.js
 
 .packages
 packages/
