@@ -26,12 +26,23 @@ if SITE != '/':
 @app.route(SITE)
 @app.route(SITE + '<path:path>')
 def page(path=''):
+    # A .dart file from a package is being requested.
+    if '/packages/' in path and path.endswith('dart'):
+        relpath = path[path.index('/packages/') + 10:]
+        return (Path('packages') / relpath).read_text()
+
     file_ = get_file(path)
-    if file_.startswith('packages') and file_.endswith('.dart'):
-        return open(file_).read()
-    if not file_.endswith('.html'):
-        return bottle.static_file(path, root='site')
-    return generate(file_, dev=True)
+    if file_ is None:
+        return bottle.HTTPResponse(
+            status=404,
+            body=(Path('site') / '404.html').read_text()
+        )
+
+    if file_.endswith('.html'):
+        return generate(file_, dev=True)
+
+    return bottle.static_file(path, root='site')
+
 
 
 @task
@@ -183,10 +194,8 @@ def get_file(path):
         return str(result)
     if result.is_dir() and (result / 'index.html').is_file():
         return str(result / 'index.html')
-    if '/packages/' in path:
-        relpath = path[path.index('/packages/') + 10:]
-        return str(Path('packages') / relpath)
-    return 'site/404.html'
+    # File was not found.
+    return None
 
 
 def get_slug(path):
