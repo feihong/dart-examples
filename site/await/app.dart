@@ -20,7 +20,7 @@ Future doSomeStuff() async {
   addPara('Slowly count to 3 using synchronous generator...');
 
   for (var n in getNumbers(1, 3)) {
-    addPara(n);
+    addPara(n.toString());
     await sleep(1);
   }
 
@@ -30,7 +30,7 @@ Future doSomeStuff() async {
   addPara('Slowly count from 6 to 8 using asynchronous generator...');
 
   await for (var n in getNumbersSlowly(6, 8)) {
-    addPara(n);
+    addPara(n.toString());
   }
 
   addPara('All done!');
