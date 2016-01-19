@@ -65,6 +65,11 @@ def build_dart():
 
 
 @task
+def dartium():
+    run("DART_FLAGS='--checked' dartium")
+
+
+@task
 def clean():
     if op.isdir('build'):
         run('rm -rf build/*')
@@ -171,11 +176,11 @@ class FileWatcher(Watcher):
 
 
 def get_file(path):
-    result = op.join('site', path)
-    if op.isfile(result):
-        return result
-    if op.isdir(result) and op.isfile(op.join(result, 'index.html')):
-        return op.join(result, 'index.html')
+    result = Path('site') / path
+    if result.is_file():
+        return str(result)
+    if result.is_dir() and (result / 'index.html').is_file():
+        return str(result / 'index.html')
     return 'site/404.html'
 
 
