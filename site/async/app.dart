@@ -41,7 +41,7 @@ Future doSomeStuff() async {
       addPara('Message was not found');
       print('Error: ' + err.toString());
     } else {
-      raise;
+      rethrow;
     }
   }
 
