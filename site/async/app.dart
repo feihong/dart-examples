@@ -33,6 +33,18 @@ Future doSomeStuff() async {
     addPara(n.toString());
   }
 
+  // Attempt to get a nonexistent message.
+  try {
+    var m3 = await getJson('m3.json');
+  } catch(err) {
+    if (err.target.status == 404) {
+      addPara('Message was not found');
+      print('Error: ' + err.toString());
+    } else {
+      raise;
+    }
+  }
+
   addPara('All done!');
 }
 
