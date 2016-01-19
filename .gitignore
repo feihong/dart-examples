@@ -3,3 +3,6 @@ build/
 *.js
 *.deps
 *.map
+
+.packages
+packages/
